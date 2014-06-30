@@ -1,0 +1,29 @@
+# Steps
+# ==========
+# need a working vagrant setup
+# Setps for Mac users
+# install Vagrant and Virtual Box
+Go to http://www.vagrantup.com/downloads.html
+    Download -> Mac OS X Universal
+    Install
+
+go to https://www.virtualbox.org/wiki/Downloads
+    Download -> VirtualBox 4.3.12 for OS X hosts  x86/amd64
+    Install
+
+# Create a dev directory (optional)
+mkdir -p ~/dev/vagrant_centos
+cd ~/dev/vagrant_centos
+# The location to vagrant will vary depending on where you installed vagrant
+/usr/bin/vagrant init http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box
+
+# a few modifications we need to make to Vagrantfile (if not already done)
+# find the following line and uncoment it
+  # config.vm.network "private_network", ip: "192.168.33.10"
+  to 
+    config.vm.network "private_network", ip: "192.168.33.10"
+#that will allow us to access the vm through that IP
+
+
+# now lets bring up the box and provision it with chef-solo
+vagrant up --provision
