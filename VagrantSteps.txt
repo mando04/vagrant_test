@@ -11,9 +11,16 @@ go to https://www.virtualbox.org/wiki/Downloads
     Download -> VirtualBox 4.3.12 for OS X hosts  x86/amd64
     Install
 
+# GitHub
+cd ~/dev/ && git clone https://github.com/mando04/vagrant_test.git
+cd vagrant_test 
+vagrant up --provision
+go to browser 192.168.33.10:8080
+
+# Semi Manual setup
 # Create a dev directory (optional)
-mkdir -p ~/dev/vagrant_centos
-cd ~/dev/vagrant_centos
+mkdir -p ~/dev/vagrant_test
+cd ~/dev/vagrant_test
 # The location to vagrant will vary depending on where you installed vagrant
 /usr/bin/vagrant init http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box
 
@@ -24,6 +31,14 @@ cd ~/dev/vagrant_centos
     config.vm.network "private_network", ip: "192.168.33.10"
 #that will allow us to access the vm through that IP
 
+#Modify this part in Vagrantfile
+  config.vm.provision "chef_solo" do |chef|
+    chef.cookbooks_path = "./cookbooks"
+    chef.add_recipe "nginx"
+    chef.formatter = :doc
+  end
+# Make sure your Vagrantfile is in the same directory as your cookbooks directory which holds the nginx cookbook
 
 # now lets bring up the box and provision it with chef-solo
 vagrant up --provision
+go to browser 192.168.33.10:8080
